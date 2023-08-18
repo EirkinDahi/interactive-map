@@ -1,0 +1,65 @@
+[
+    {
+        "province":"ON",
+        "grade":"A",
+        "score":"75%"
+    },
+
+    {
+        "province":"BC",
+        "grade":"B",
+        "score":"76%"
+    },
+
+    {
+        "province":"MB",
+        "grade":"C",
+        "score":"77%"
+    },
+    {
+        "province":"SK",
+        "grade":"D",
+        "score":"78%"
+    },
+    {
+        "province":"AB",
+        "grade":"A-",
+        "score":"79%"
+    },
+    {
+        "province":"NL",
+        "grade":"A",
+        "score":"80%"
+    },
+    {
+        "province":"NS",
+        "grade":"B",
+        "score":"81%"
+    },
+    {
+        "province":"PE",
+        "grade":"C",
+        "score":"82%"
+    },
+    
+    {
+        "province":"NB",
+        "grade":"C",
+        "score":"83%"
+    },
+    {
+        "province":"YT",
+        "grade":"D",
+        "score":"84%"
+    },
+    {
+        "province":"NT",
+        "grade":"B",
+        "score":"85%"
+    },
+    {
+        "province":"NU",
+        "grade":"A",
+        "score":"86%"
+    }
+]
