@@ -56,6 +56,7 @@ function loadMap() {
       getLocal();
 
       // console.log(obj[2]);
+      //matching selected province with json data
       const prov = details.postal.value;
       var res = null;
 
@@ -144,6 +145,7 @@ function getData(e) {
   });
 }
 
+//getting local data 
 function getLocal(){
   fetch('./localdata.json')
   .then((response) => response.json())
