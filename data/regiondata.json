@@ -1,0 +1,50 @@
+[
+  {
+    "data_title": "Ontario Anti-SLAPP Rating",
+    "colour": "Green",
+    "grade": "",
+    "score": "75",
+    "total_score": "75 / 79",
+    "map_id": "7759",
+    "data_id": "7760",
+    "country": "Canada",
+    "country_short_name": "CA",
+    "name": "Ontario",
+    "short_name": "ON",
+    "url_data": "http://cfe.local/node/7760",
+    "url_map": "http://cfe.local/node/7759",
+    "description": "Nunc nec neque. Nam eget dui. Sed fringilla mauris sit amet nibh. In consectetuer turpis ut velit. Nam at tortor in tellus interdum sagittis."
+  },
+  {
+    "data_title": "British Columbia Anti-SLAPP Rating",
+    "colour": "Red",
+    "grade": "A-",
+    "score": "71",
+    "total_score": "71 / 79",
+    "map_id": "7759",
+    "data_id": "7761",
+    "country": "Canada",
+    "country_short_name": "CA",
+    "name": "British Columbia",
+    "short_name": "BC",
+    "url_data": "http://cfe.local/node/7761",
+    "url_map": "http://cfe.local/node/7759",
+    "description": "Nunc nec neque. Nam eget dui. Sed fringilla mauris sit amet nibh. In consectetuer turpis ut velit. Nam at tortor in tellus interdum sagittis."
+  },
+  {
+    "data_title": "New York Anti-SLAPP Rating",
+    "colour": "Green",
+    "grade": "",
+    "score": "71",
+    "total_score": "71 / 79",
+    "map_id": "7759",
+    "data_id": "7761",
+    "country": "United States",
+    "country_short_name": "US",
+    "name": "New York",
+    "short_name": "NY",
+    "url_data": "http://cfe.local/node/7761",
+    "url_map": "http://cfe.local/node/7759",
+    "description": "Nunc nec neque. Nam eget dui. Sed fringilla mauris sit amet nibh. In consectetuer turpis ut velit. Nam at tortor in tellus interdum sagittis."
+  }
+]

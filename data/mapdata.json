@@ -1,0 +1,19 @@
+[
+  {
+    "map_title": "Global Anti-SLAPP Rating",
+    "map_id": "7759",
+    "countries": [
+      {
+        "name": "Canada",
+        "short_name": "CA",
+        "mapfile": "CA2.svg"
+      },
+      {
+        "name": "United States",
+        "short_name": "US",
+        "mapfile": "US2.svg"
+      }
+    ],
+    "url_map": "http://cfe.local/node/7759"
+  }
+]

@@ -3,22 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>Interactive SVG Maps of the World</title>
+    <title>Interactive SVG Maps with data overlay</title>
     <meta
       name="description"
-      content="Administrative SVG maps of the world. Download SVG map by country or get the whole package. Open source interactive SVG maps."
+      content="Interactive SVG Map with data overlay"
     />
     <meta name="theme-color" content="#2c3e50" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="styles.css" type="text/css" />
   </head>
   <body>
     <main>
       <section class="content">
+        <div id="controls">
+          <div class="form-control">
+            <label>Country</label>
+            <select id="mapChange" onchange="changeMap()"></select>
+          </div>
+
+          <div class="form-control">
+            <label>Region</label>
+            <select id="regionSelect" onchange="regionSelect()">
+              <option value="" disabled selected>Select</option>
+            </select>
+          </div>
+
+        </div>
         <div class="map-wrapper">
           <div id="toolTip"></div>
           <object id="map" data="maps/CA.svg" type="image/svg+xml"></object>
-          <div id="myModal" class="modal"></div>
+        </div>
+        <div id="map-popup" class="">
+          <button id="close-pop" type="button" onclick="closePop()">X</button>
+          <div id="popup-content">
+            <div class="col-left"></div>
+            <div class="col-right"></div>
+          </div>
         </div>
       </section>
     </main>

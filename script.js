@@ -1,14 +1,12 @@
 // Global variable of maplist
-
-
-var mapList;
-const paragraph = "ON has an excellent anti-SLAPP law that ranks the highest in the world in our scoring(in a tie with British Columbia). It is broad in scope and has strong procedures that imposea low bar on a defendant to bring an anti-SLAPP motion, and protections if a defendant’s motion is denied.";
-var obj;
+let mapList;
+let regionData;
+let currentCountry;
+let currentRegionsData;
 
 function loadMap() {
   var map = document.getElementById("map").contentDocument.querySelector("svg");
   var toolTip = document.getElementById("toolTip");
-  var modal = document.getElementById("myModal");
 
   // Add event listeners to map element
   if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -18,30 +16,31 @@ function loadMap() {
   map.addEventListener("mousemove", mouseEntered, false);
   map.addEventListener("mouseout", mouseGone, false);
 
+  currentRegionsData.forEach((region) => {
+    let path = map.getElementById(`${region.short_name}`)
+    path.style.fill = `${region.colour}`;
+  });
+
   // Show tooltip on mousemove
   function mouseEntered(e) {
     var target = e.target;
     if (target.nodeName == "path") {
-      target.style.opacity = 0.6;
+      target.style.opacity = 0.8;
       var details = e.target.attributes;
 
       // Follow cursor
       toolTip.style.transform = `translate(${e.offsetX}px, ${e.offsetY}px)`;
 
-      // Tooltip data
       toolTip.innerHTML = `
-        <ul>
-            <li><b>Province: ${details.name.value}</b></li>
-            <li>Local name: ${details.gn_name.value}</li>
-            <li>Country: ${details.admin.value}</li>
-            <li>Postal: ${details.postal.value}</li>
-        </ul>`;
+      <ul>
+          <li><b>${details.title.value}</b></li>
+      </ul>`;
     }
   }
 
   // Clear tooltip on mouseout
   function mouseGone(e) {
-    var target = e.target;
+    let target = e.target;
     if (target.nodeName == "path") {
       target.style.opacity = 1;
       toolTip.innerHTML = "";
@@ -51,77 +50,205 @@ function loadMap() {
   // Go to wikidata page onclick
   function handleClick(e) {
     if (e.target.nodeName == "path") {
-      var details = e.target.attributes;
-      //console.log(e.target.nodeName);
-      getLocal();
+      let details = e.target.attributes;
+      // window.open(`https://www.wikidata.org/wiki/${details.wikidataid.value}`, "_blank");
 
-      // console.log(obj[2]);
-      //matching selected province with json data
-      const prov = details.postal.value;
-      var res = null;
-
-      for(let i = 0; i < obj.length; i++){
-        if(prov == obj[i].province){
-          res = obj[i];
-          break;
-        }
-      }
-
-      // console.log(res);
-      
-      // console.log("im here");
-      modal.style.display = "block";
-      modal.innerHTML = `
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h4><b>${e.target.attributes.name.value}</b></h4>
-          <p>${paragraph}</p>
-          <button class="link">Read More</button>
-        </div>
-        <div class="box1">
-          <p>SCORE</p> <p><b>${res.score}</b></p>
-        </div>
-        <div class = "box2">
-          <p>GRADE</p> <p><b>${res.grade}</b></p>
-        </div>
-        `;
-
-      //button for read more to open url
-      btn = document.getElementsByClassName("link")[0];
-      btn.onclick = function(){
-        window.open(`https://www.wikidata.org/wiki/${details.wikidataid.value}`, "_blank");
-      }
-
-      //close button
-      span = document.getElementsByClassName("close")[0];
-      span.onclick = function() {
-        modal.style.display = "none";
-      }
+      loadPopup(details);
 
     }
-  }
+  }  
 }
 
 // Calls init function on window load
 window.onload = function () {
-  var changeSelector = document.getElementById("mapChange");
+  const changeSelector = document.getElementById("mapChange");
+  
 
-  // Get JSON file containing map list
-  getData("mapList.json").then(function (res) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const country = urlParams.get('country')
+
+  getData('./data/mapdata.json').then(function (res) {
     mapList = res;
-    res.map(function (item) {
-      var option = document.createElement("option");
-      option.text = item[0] + " - " + item[1];
-      option.value = item[3];
+
+    localStorage.setItem(`cfemap-${mapList[0].map_id}`, JSON.stringify(mapList));
+     
+    const countries = mapList[0].countries;
+
+    // create the option elements for the country selector
+    countries.forEach((country) => {
+      let option = document.createElement('option');
+      option.text = country.name;
+      option.value = country.short_name;
       changeSelector.appendChild(option);
     });
-    changeSelector.options[149].selected = "selected";
+    
+    // React to URL parameter "Country" if present
+    if (!country) {
+      changeSelector.options[0].selected = "selected";
+      changeMap();
+    } else {
+      const $options = Array.from(changeSelector.options);
+      var optionToSelect = $options.find(item => item.value === country);
+      optionToSelect.selected = true;
+      changeMap();
+    }
   });
 
-  // Init map
-  loadMap();
+  getData('./data/regiondata.json').then(function (res) {
+    regionData = res;
+  });
 };
 
+function loadPopup(path, selectedValue, selectedText) {
+  
+  let filterData;
+  let title;
+
+  if (selectedValue && selectedText && path == 0) {
+    filterData = regionData.filter((lookup) => {
+      return lookup.short_name === selectedValue;
+    });
+    title = selectedText;
+  } else {
+    filterData = regionData.filter((lookup) => {
+      return lookup.short_name === path.id.value;
+    });
+    title = path.title.value;
+  }
+
+  const selectedRegion = filterData[0];
+  
+    
+  const popup = document.getElementById('popup-content');
+  const leftcol = popup.querySelector('.col-left');
+  const rightcol = popup.querySelector('.col-right');
+
+  leftcol.innerHTML = null;
+  rightcol.innerHTML = null;
+  
+  let score = 'N/A';
+  let grade = 'N/A';
+  let description = 'No data is available for this region.';
+  let link;
+
+  if (filterData.length === 0) {
+    console.warn('[Map] Error: Could not find popup data');  
+  } else {
+    
+    console.log(selectedRegion);
+
+    title = selectedRegion.data_title;
+    if (selectedRegion.score) {
+      score = selectedRegion.score;
+    }
+    if (selectedRegion.grade) {
+      grade = selectedRegion.grade;
+    }
+    if (selectedRegion.description) {
+      description = selectedRegion.description;
+    }
+    if (selectedRegion.url_data) {
+      link = selectedRegion.url_data;
+    }
+  }
+
+
+  let scoreElement = `
+    <div class="score-item">
+      <h4>Score</h4>
+      <p>${score}</p>
+    </div>`;
+  
+  let gradeElement = `
+    <div class="score-item">
+      <h4>Grade</h4>
+      <p>${grade}</p>
+    </div>`;
+
+  let titleElement = `<h2>${title}</h2>`;
+  let descriptionElement = `<div class="description"><p>${description}</p></div>`;
+
+  let linkElement = `<a href="${link}" target="_blank" title="Open data for ${title} in a separate window">Read More</a>`;
+
+  leftcol.innerHTML = scoreElement;
+  leftcol.innerHTML += gradeElement;
+
+  rightcol.innerHTML = titleElement;
+  rightcol.innerHTML += descriptionElement;
+  rightcol.innerHTML += linkElement;
+
+  document.getElementById('map-popup').classList.add('open');
+
+}
+
+function createOptions() {
+  const regionSelector = document.getElementById("regionSelect");
+
+  regionSelector.innerHTML = `<option value="" disabled selected>Select</option>`;
+  currentRegionsData = regionData.filter((region) => {
+    return region.country_short_name === currentCountry;
+  });
+  currentRegionsData.forEach((region) => {
+    let option = document.createElement('option');
+    option.text = region.name;
+    option.value = region.short_name;
+    regionSelector.appendChild(option);
+  });
+}
+
+function regionSelect() {
+  const map = document.getElementById("map");
+  const regionSelector = document.getElementById("regionSelect");
+
+  let selectedValue = regionSelector.options[regionSelector.selectedIndex].value;
+  let selectedText = regionSelector.options[regionSelector.selectedIndex].text;
+
+  loadPopup(0,selectedValue,selectedText);
+
+}
+
+// Calls map change function on button click
+function changeMap(random) {
+  const map = document.getElementById("map");
+  const changeSelector = document.getElementById("mapChange");
+
+  // Get value of dropdown selection
+  let selectedValue;
+
+  
+
+  if (random) {
+    // Random map generated
+    selectedValue = mapList[random][3];
+    changeSelector.options[random].selected = "selected";
+  } else {
+    // Selected from dropdown
+    selectedValue = changeSelector.options[changeSelector.selectedIndex].value;
+  }
+
+  currentCountry = selectedValue;
+
+  // Load new map
+  map.data = `maps/${selectedValue}.svg`;
+
+  // Re-init map on map load
+  map.onload = function () {
+    createOptions();
+    loadMap();
+    
+  };
+}
+
+
+async function getMapData() {
+  try {
+    const response = await fetch('./data/mapdata.json');
+    const data = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // Load external data
 function getData(e) {
@@ -145,9 +272,6 @@ function getData(e) {
   });
 }
 
-//getting local data 
-function getLocal(){
-  fetch('./localdata.json')
-  .then((response) => response.json())
-  .then((data) => {obj = data})
+function closePop() {
+  document.getElementById('map-popup').classList.remove('open');
 }
