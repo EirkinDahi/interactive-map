@@ -425,12 +425,12 @@ section.sidebar {
 }
 
 object#map {
-  width: 78%;
+  width: 68%;
   height: 100%;
   z-index: 1;
   position: absolute;
   top: 1em;
-  left: 21%;
+  left: 31%;
 }
 
 h1.title {
@@ -515,7 +515,7 @@ div#toolTip {
   z-index: 999;
   pointer-events: none;
 
-  left: 22%;
+  left: 32%;
 }
 
 div#toolTip ul {
@@ -530,7 +530,7 @@ div#toolTip ul li {
 }
 
 #map-popup {
-  width: 20%;
+  width: 30%;
   height: 100vh;
   position: fixed;
   top: 0;
