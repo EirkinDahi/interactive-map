@@ -21,6 +21,11 @@ function loadMap() {
     path.style.fill = `${region.colour}`;
   });
 
+  svgPanZoom('#map', {
+    zoomEnabled: true,
+    controlIconsEnabled: true
+  });
+
   // Show tooltip on mousemove
   function mouseEntered(e) {
     var target = e.target;
@@ -120,17 +125,19 @@ function loadPopup(path, selectedValue, selectedText) {
   const selectedRegion = filterData[0];
   
     
-  const popup = document.getElementById('popup-content');
-  const leftcol = popup.querySelector('.col-left');
-  const rightcol = popup.querySelector('.col-right');
+  const regionDataRender = document.querySelector('#regionDataRender');
+  const regionTitle = regionDataRender.querySelector('#regionTitle');
+  const regionScore = regionDataRender.querySelector('#regionScore');
+  const regionDescription = regionDataRender.querySelector('#regionDescription');
 
-  leftcol.innerHTML = null;
-  rightcol.innerHTML = null;
+  regionTitle.innerHTML = null;
+  regionScore.innerHTML = null;
+  regionDescription.innerHTML = null;
   
   let score = 'N/A';
   let grade = 'N/A';
   let description = 'No data is available for this region.';
-  let link;
+  let link = '#';
 
   if (filterData.length === 0) {
     console.warn('[Map] Error: Could not find popup data');  
@@ -171,14 +178,17 @@ function loadPopup(path, selectedValue, selectedText) {
 
   let linkElement = `<a href="${link}" target="_blank" title="Open data for ${title} in a separate window">Read More</a>`;
 
-  leftcol.innerHTML = scoreElement;
-  leftcol.innerHTML += gradeElement;
+  regionScore.innerHTML = scoreElement;
+  regionScore.innerHTML += gradeElement;
 
-  rightcol.innerHTML = titleElement;
-  rightcol.innerHTML += descriptionElement;
-  rightcol.innerHTML += linkElement;
+  regionTitle.innerHTML = titleElement;
+  regionDescription.innerHTML += descriptionElement;
+  
+  if (link !== '#') {
+    regionDescription.innerHTML += linkElement;
+  }
 
-  document.getElementById('map-popup').classList.add('open');
+  //document.getElementById('map-popup').classList.add('open');
 
 }
 

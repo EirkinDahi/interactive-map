@@ -360,6 +360,10 @@ a {
   color: #3498db;
 }
 
+a:focus {
+  outline: 2px solid black;
+}
+
 @media only screen and (min-width: 1200px) {
   html,
   body {
@@ -385,33 +389,24 @@ a {
 }
 
 main {
-  display: flex;
   position: relative;
   height: 100%;
 }
 
 section.sidebar {
-  flex: 0 0 20%;
-  position: relative;
   background-color: #dfe6e9;
   height: 100%;
-  min-width: 400px;
+  width: 400px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
-section.sidebar * {
-  margin-bottom: 15px;
-}
 
-section.content {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 60px);
-}
+
 
 .map-wrapper {
   min-height: 90vh;
@@ -421,22 +416,21 @@ section.content {
 }
 
 #controls {
-  z-index: 10;
-  position: absolute;
-  top: 1em;
-  left: 1em;
+  width: 100%;
 }
 
-#controls .form-control {
+.form-control {
   margin-bottom: 1em;
+  width: 100%;
 }
 
 object#map {
-  width: 100%;
+  width: 78%;
   height: 100%;
   z-index: 1;
   position: absolute;
   top: 1em;
+  left: 21%;
 }
 
 h1.title {
@@ -492,6 +486,9 @@ a.download {
   cursor: pointer;
   border: 1px solid #2c3e50;
 }
+select:focus {
+  outline: 2px solid black;
+}
 
 .random:hover,
 a.download:hover {
@@ -517,6 +514,8 @@ div#toolTip {
   border-radius: 3px;
   z-index: 999;
   pointer-events: none;
+
+  left: 22%;
 }
 
 div#toolTip ul {
@@ -531,15 +530,14 @@ div#toolTip ul li {
 }
 
 #map-popup {
-  width: 100%;
-  display: none;
-  height: auto;
+  width: 20%;
+  height: 100vh;
   position: fixed;
-  bottom: 0;
-  border-top: 1px solid;
-  background-color: white;
+  top: 0;
+  background-color: #dfe6e9;
   padding: 2em;
   z-index: 1001;
+  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.5);
 }
 #map-popup.open {
   display: block;
@@ -548,38 +546,55 @@ div#toolTip ul li {
   display: none;
 }
 
+#regionDataRender {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid;
+}
+
+#regionScore {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
 #popup-content {
   display: flex;
-  gap: 3em;
+  flex-direction: column;
+  gap: 1em;
 }
 #popup-content .col-left {
   display: flex;
   gap: 1em;
 }
 .score-item {
-  border: 1px solid black;
-  padding: 1em 3em;
+  border: 1px solid;
+  padding: 1em;
   text-align: center;
   background: white;
+  width: 50%;
 }
 .score-item h4 {
   font-size: 0.9em;
+  margin: 0 0 0.5em 0;
+  color: darkslategray;
 }
 .score-item p {
   font-size: 2em;
+  margin: 0;
 }
 #popup-content .description {
   max-width: 800px;
   margin-bottom: 2em;
 }
-#popup-content .col-right a {
+#regionDescription a {
   padding: 0.7em 1em;
   background-color: white;
   color: #2c2e3b;
   border: 1px solid #2c2e3b;
 }
-#popup-content .col-right a:hover,
-#popup-content .col-right a:focus {
+#regionDescription a:hover,
+#regionDescription a:focus {
   background-color: #2c2e3b;
   color: white;
 }
