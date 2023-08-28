@@ -295,8 +295,10 @@ function closePop() {
 function toggleFullscreen(e) {
   var el = document.querySelector('body');
   if(document.fullscreenElement){ 
-    document.exitFullscreen() 
+    document.exitFullscreen();
+    changeMap();
   } else { 
     el.requestFullscreen();
+    changeMap();
   } 
 }
