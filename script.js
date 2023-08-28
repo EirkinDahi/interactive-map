@@ -143,8 +143,6 @@ function loadPopup(path, selectedValue, selectedText) {
     console.warn('[Map] Error: Could not find popup data');  
   } else {
     
-    console.log(selectedRegion);
-
     title = selectedRegion.data_title;
     if (selectedRegion.score) {
       score = selectedRegion.score;
@@ -188,7 +186,7 @@ function loadPopup(path, selectedValue, selectedText) {
     regionDescription.innerHTML += linkElement;
   }
 
-  //document.getElementById('map-popup').classList.add('open');
+  document.getElementById('regionDataRender').classList.add('open');
 
 }
 
@@ -283,5 +281,5 @@ function getData(e) {
 }
 
 function closePop() {
-  document.getElementById('map-popup').classList.remove('open');
+  document.getElementById('regionDataRender').classList.remove('open');
 }
