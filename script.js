@@ -106,7 +106,7 @@ window.onload = function () {
       changeSelector.options[0].selected = "selected";
       changeMap();
     });
-    getData(`/api/v1/map/${mapNodeID}`).then(function (res) {
+    getData(`/api/v1/mapdata/${mapNodeID}`).then(function (res) {
       regionData = res;
     });
   }
