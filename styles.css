@@ -665,3 +665,17 @@ footer#map-footer {
 footer#map-footer img {
   max-width: 60px;
 }
+
+#toggleFullScreen {
+  position: fixed;
+  right: 1em;
+  top: 1em;
+  background-color: white;
+  border: 1px solid #2c2e3b;
+  color: #2c2e3b;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1em;
+  font-size: 0.5em;
+  z-index: 1001;
+}

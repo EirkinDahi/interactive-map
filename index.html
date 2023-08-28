@@ -7,6 +7,7 @@
   <title>Interactive SVG Maps with data overlay</title>
   <meta name="description" content="Interactive SVG Map with data overlay" />
   <meta name="theme-color" content="#2c3e50" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,-25" />
   <link rel="stylesheet" href="styles.css" type="text/css" />
 </head>
 
@@ -23,12 +24,15 @@
           <select id="regionSelect" onchange="regionSelect()"></select>
         </div>
       </div>
+      <button id="toggleFullScreen" type="button" onclick="toggleFullscreen()"><span class="material-symbols-outlined">
+        open_in_full
+        </span></button>
       <div class="map-wrapper">
         <div id="toolTip"></div>
         <object id="map" data="maps/CA.svg" type="image/svg+xml"></object>
       </div>
       <div id="regionDataRender">
-        <button id="close-pop" type="button" onclick="closePop()">X</button>
+        <button id="close-pop" type="button" onclick="closePop(event.target)">X</button>
         <div class="left-col">
           <div id="regionScore"></div>
         </div>

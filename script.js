@@ -291,3 +291,12 @@ function getData(e) {
 function closePop() {
   document.getElementById('regionDataRender').classList.remove('open');
 }
+
+function toggleFullscreen(e) {
+  var el = document.querySelector('body');
+  if(document.fullscreenElement){ 
+    document.exitFullscreen() 
+  } else { 
+    el.requestFullscreen();
+  } 
+}
