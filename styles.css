@@ -391,6 +391,7 @@ a:focus {
 main {
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 section.sidebar {
