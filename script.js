@@ -73,61 +73,43 @@ window.onload = function () {
   const urlParams = new URLSearchParams(queryString);
   const mapNodeID = urlParams.get('id');
 
-  if (!mapNodeID) {
-    // console.error("[MAP] Error: No node id provided for map.");
-    // return;
+  if (mapNodeID == 'test') {
+    console.error("[MAP] Error: No node id provided for map. Loading test data.");
+    
+    getData('./data/mapdata.json').then(function (res) {
+      mapList = res;
+    
+      // create the option elements for the country selector
+      mapList.forEach((item) => {
+        let option = document.createElement('option');
+        option.text = item.country_name;
+        option.value = item.country_short_name;
+        changeSelector.appendChild(option);
+      });
+      changeSelector.options[0].selected = "selected";
+      changeMap();
+    });
+    getData('./data/regiondata.json').then(function (res) {
+      regionData = res;
+    });
   } else {
     getData(`/api/v1/map/${mapNodeID}`).then(function (res) {
       mapList = res;
 
       // create the option elements for the country selector
       mapList.forEach( (item) => {
-        console.log(item.country_name);
         let option = document.createElement('option');
         option.text = item.country_name;
         option.value = item.country_short_name;
         changeSelector.appendChild(option);
       });
+      changeSelector.options[0].selected = "selected";
+      changeMap();
     });
     getData(`/api/v1/map/${mapNodeID}`).then(function (res) {
       regionData = res;
     });
   }
-
-  getData('./data/mapdata.json').then(function (res) {
-    // mapList = res;
-
-    // // Create options to select country
-    // mapList.forEach( (item) => {
-    //   console.log(item.country_name);
-    //   let option = document.createElement('option');
-    //   option.text = item.country_name;
-    //   option.value = item.country_short_name;
-    //   changeSelector.appendChild(option);
-    // });
-
-    // const countries = mapList[0].countries;
-
-    // create the option elements for the country selector
-    // countries.forEach((country) => {
-    //   let option = document.createElement('option');
-    //   option.text = country.name;
-    //   option.value = country.short_name;
-    //   changeSelector.appendChild(option);
-    // });
-    
-    // React to URL parameter "Country" if present
-    // if (!country) {
-    //   changeSelector.options[0].selected = "selected";
-    //   changeMap();
-    // } else {
-    //   const $options = Array.from(changeSelector.options);
-    //   var optionToSelect = $options.find(item => item.value === country);
-    //   optionToSelect.selected = true;
-    //   changeMap();
-    // }
-  });
-
 
 };
 
