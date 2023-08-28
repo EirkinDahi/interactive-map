@@ -409,7 +409,7 @@ section.sidebar {
 
 
 .map-wrapper {
-  min-height: 90vh;
+  min-height: calc(100vh - 40px);
   height: 100%;
   width: 100%;
   margin: auto;
@@ -422,6 +422,10 @@ section.sidebar {
   display: flex;
   gap: 2em;
   z-index: 1001;
+  background-color: white;
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .form-control {
@@ -436,7 +440,6 @@ object#map {
   height: 100%;
   z-index: 1;
   position: absolute;
-  top: 1em;
 }
 
 h1.title {
@@ -545,7 +548,7 @@ div#toolTip ul li {
 
 #regionDataRender {
   position: fixed;
-  bottom: 60px;
+  bottom: 40px;
   background-color: white;
   width: 100%;
   padding: 2em 2em 5em;
@@ -606,11 +609,19 @@ div#toolTip ul li {
   max-width: 800px;
   margin-bottom: 2em;
 }
+#regionTitle h2 {
+  margin: 0 0 1em;
+}
+#regionDescription {
+  max-width: 650px;
+}
 #regionDescription a {
   padding: 0.7em 1em;
   background-color: white;
   color: #2c2e3b;
   border: 1px solid #2c2e3b;
+  margin-top: 1em;
+  display: inline-block;
 }
 #regionDescription a:hover,
 #regionDescription a:focus {
@@ -620,15 +631,14 @@ div#toolTip ul li {
 
 #close-pop {
   position: absolute;
-  top: 2em;
-  right: 2em;
+  top: 1em;
+  right: 1em;
   background-color: white;
   border: 1px solid #2c2e3b;
   color: #2c2e3b;
   font-weight: bold;
-  font-size: 1.5em;
   cursor: pointer;
-  padding: 0.75em;
+  padding: 1em;
 }
 #close-pop:hover,
 #close-pop:focus {
@@ -640,15 +650,16 @@ footer#map-footer {
   position: fixed;
   bottom: 0;
   display: flex;
-  padding: 1em;
+  padding: 10px;
   background: #2c2e3b;
   width: 100%;
   z-index: 1000;
-  max-height: 60px;
+  max-height: 40px;
   justify-content: left;
   gap: 1em;
   align-items: center;
   color: white;
+  font-size: 0.8em;
 }
 footer#map-footer img {
   max-width: 60px;
