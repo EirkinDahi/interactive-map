@@ -7,46 +7,44 @@
   <title>Interactive SVG Maps with data overlay</title>
   <meta name="description" content="Interactive SVG Map with data overlay" />
   <meta name="theme-color" content="#2c3e50" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,-25" />
   <link rel="stylesheet" href="styles.css" type="text/css" />
 </head>
 
 <body>
   <main >
     <section class="content">
-        <div id="map-popup" class="">
-          <!-- <button id="close-pop" type="button" onclick="closePop()">X</button> -->
-          <div id="popup-content">
-            
-            <div id="title">
-              <img src="https://cfe.torontomu.ca/themes/cfe/logo.svg" width="30%">
-              <h1 class="title">Global Anti-SLAPP Rating</h1>
-              <p class="info">
-                A short introduction to this effort.
-              </p>
-            </div>
-            <div id="controls">
-              <div class="form-control">
-                <label>Select a country:</label>
-                <select id="mapChange" onchange="changeMap()"></select>
-              </div>
-              <div class="form-control">
-                <label>Select a region:</label>
-                <select id="regionSelect" onchange="regionSelect()">
-                </select>
-              </div>
-            </div>
-            <div id="regionDataRender">
-              <div id="regionTitle"></div>
-              <div id="regionScore"></div>
-              <div id="regionDescription"></div>
-            </div>
-          </div>
+      <div id="controls">
+        <div class="form-control">
+          <label>Country:</label>
+          <select id="mapChange" onchange="changeMap()"></select>
         </div>
+        <div class="form-control">
+          <label>Region:</label>
+          <select id="regionSelect" onchange="regionSelect()"></select>
+        </div>
+      </div>
+      <button id="toggleFullScreen" type="button" onclick="toggleFullscreen()"><span class="material-symbols-outlined">
+open_in_full
+</span></button>
       <div class="map-wrapper">
-        
         <div id="toolTip"></div>
         <object id="map" data="maps/CA.svg" type="image/svg+xml"></object>
       </div>
+      <div id="regionDataRender">
+        <button id="close-pop" type="button" onclick="closePop(event.target)">X</button>
+        <div class="left-col">
+          <div id="regionScore"></div>
+        </div>
+        <div class="right-col">
+          <div id="regionTitle"></div>
+          <div id="regionDescription"></div>
+        </div>
+      </div>
+      <footer id="map-footer">
+        <img src="https://cfe.torontomu.ca/themes/cfe/logo.svg">
+        <p>Global Anit-SLAPP Ratings by Centre of Free Expression (CFE)</p>
+      </footer>
 
     </section>
   </main>

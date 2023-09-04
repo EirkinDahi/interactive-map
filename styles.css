@@ -391,6 +391,7 @@ a:focus {
 main {
   position: relative;
   height: 100%;
+  overflow: hidden;
 }
 
 section.sidebar {
@@ -409,28 +410,37 @@ section.sidebar {
 
 
 .map-wrapper {
-  min-height: 90vh;
+  min-height: calc(100vh - 40px);
   height: 100%;
   width: 100%;
   margin: auto;
 }
 
 #controls {
-  width: 100%;
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  display: flex;
+  gap: 2em;
+  z-index: 1001;
+  background-color: white;
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .form-control {
-  margin-bottom: 1em;
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 object#map {
-  width: 68%;
+  width: 100%;
   height: 100%;
   z-index: 1;
   position: absolute;
-  top: 1em;
-  left: 31%;
 }
 
 h1.title {
@@ -468,10 +478,7 @@ h2#country-name {
 }
 
 label {
-  display: block;
   text-align: left;
-  width: 100%;
-  font-weight: bold;
 }
 
 select,
@@ -479,7 +486,7 @@ select,
 a.download {
   outline: none;
   border: none;
-  padding: 15px;
+  padding: 5px;
   display: block;
   width: 100%;
   border-radius: 3px;
@@ -514,8 +521,7 @@ div#toolTip {
   border-radius: 3px;
   z-index: 999;
   pointer-events: none;
-
-  left: 32%;
+  left: 10px;
 }
 
 div#toolTip ul {
@@ -530,26 +536,34 @@ div#toolTip ul li {
 }
 
 #map-popup {
-  width: 30%;
-  height: 100vh;
   position: fixed;
-  top: 0;
-  background-color: #dfe6e9;
-  padding: 2em;
+  top: 1em;
+  background-color: white;
+  padding: 1em;
   z-index: 1001;
-  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.5);
-}
-#map-popup.open {
-  display: block;
-}
-#map-popup.closed {
-  display: none;
+  left: 1em;
+  width: calc(100% - 2em);
+  border-radius: 10px;
 }
 
+
 #regionDataRender {
-  margin-top: 1em;
-  padding-top: 1em;
+  position: fixed;
+  bottom: 40px;
+  background-color: white;
+  width: 100%;
+  padding: 2em 2em 5em;
+  z-index: 1001;
+  display: none;
+  gap: 2em;
   border-top: 1px solid;
+}
+
+#regionDataRender.open {
+  display: flex;
+}
+#regionDataRender.closed {
+  display: none;
 }
 
 #regionScore {
@@ -560,8 +574,17 @@ div#toolTip ul li {
 
 #popup-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1em;
+}
+#popup-content #title {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+#title h1.title {
+  font-size: 1.4em;
+  margin: 0;
 }
 #popup-content .col-left {
   display: flex;
@@ -587,11 +610,19 @@ div#toolTip ul li {
   max-width: 800px;
   margin-bottom: 2em;
 }
+#regionTitle h2 {
+  margin: 0 0 1em;
+}
+#regionDescription {
+  max-width: 650px;
+}
 #regionDescription a {
   padding: 0.7em 1em;
   background-color: white;
   color: #2c2e3b;
   border: 1px solid #2c2e3b;
+  margin-top: 1em;
+  display: inline-block;
 }
 #regionDescription a:hover,
 #regionDescription a:focus {
@@ -601,18 +632,50 @@ div#toolTip ul li {
 
 #close-pop {
   position: absolute;
-  top: 2em;
-  right: 2em;
+  top: 1em;
+  right: 1em;
   background-color: white;
   border: 1px solid #2c2e3b;
   color: #2c2e3b;
   font-weight: bold;
-  font-size: 1.5em;
   cursor: pointer;
-  padding: 0.75em;
+  padding: 1em;
 }
 #close-pop:hover,
 #close-pop:focus {
   background-color: #2c2e3b;
   color: white;
+}
+
+footer#map-footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  padding: 10px;
+  background: #2c2e3b;
+  width: 100%;
+  z-index: 1000;
+  max-height: 40px;
+  justify-content: left;
+  gap: 1em;
+  align-items: center;
+  color: white;
+  font-size: 0.8em;
+}
+footer#map-footer img {
+  max-width: 60px;
+}
+
+#toggleFullScreen {
+  position: fixed;
+  right: 1em;
+  top: 1em;
+  background-color: white;
+  border: 1px solid #2c2e3b;
+  color: #2c2e3b;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1em;
+  font-size: 0.5em;
+  z-index: 1001;
 }
