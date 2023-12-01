@@ -17,11 +17,13 @@ function loadMap() {
   map.addEventListener("mousemove", mouseEntered, false);
   map.addEventListener("mouseout", mouseGone, false);
 
-
-    currentRegionsData.forEach((region) => {
-      let path = map.getElementById(`${region.short_name}`)
-      path.style.fill = `${region.colour}`;
+  currentRegionsData.forEach((region) => {
+    let path = map.querySelectorAll(`#${region.short_name}`);
+    path.forEach((item) => {
+      item.style.fill = `${region.colour}`;
     });
+    
+  });
 
 
   svgPanZoom('#map', {
@@ -144,10 +146,6 @@ async function loadPopup(path, selectedValue, selectedText) {
   }
 
   const selectedRegion = filterData[0];
-
-  console.log(selectedRegion.total_score);
-  console.log(mapSettings);
-  
     
   const regionDataRender = document.querySelector('#regionDataRender');
   const regionTitle = regionDataRender.querySelector('#regionTitle');
@@ -204,7 +202,6 @@ async function loadPopup(path, selectedValue, selectedText) {
 
   if (mapSettings.includes('displayScore')) {
     regionScore.innerHTML += scoreElement;
-    console.log(scoreElement);
   }
   if (mapSettings.includes('displayGrade')) {
     regionScore.innerHTML += gradeElement;
