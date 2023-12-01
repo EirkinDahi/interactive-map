@@ -1,10 +1,11 @@
 // Global variable of maplist
 let mapList;
 let regionData;
+let mapSettings;
 let currentCountry;
 let currentRegionsData;
 
-function loadMap() {
+async function loadMap() {
   var map = document.getElementById("map").contentDocument.querySelector("svg");
   var toolTip = document.getElementById("toolTip");
 
@@ -95,6 +96,8 @@ window.onload = function () {
   } else {
     getData(`/api/v1/map/${mapNodeID}`).then(function (res) {
       mapList = res;
+      setMapSettings(mapList[0].map_display_settings);
+      setMapTitle();
 
       // create the option elements for the country selector
       mapList.forEach( (item) => {
@@ -110,10 +113,19 @@ window.onload = function () {
       regionData = res;
     });
   }
-
 };
 
-function loadPopup(path, selectedValue, selectedText) {
+async function setMapSettings(mapData) {
+  mapSettings = mapData.split(",");
+  console.log(mapSettings);
+}
+
+async function setMapTitle() {
+  const mapTitle = document.querySelector('#maptitle');
+  mapTitle.innerHTML = `${mapList[0].map_title}`;
+}
+
+async function loadPopup(path, selectedValue, selectedText) {
   
   let filterData;
   let title;
@@ -152,8 +164,8 @@ function loadPopup(path, selectedValue, selectedText) {
   } else {
     
     title = selectedRegion.data_title;
-    if (selectedRegion.score) {
-      score = selectedRegion.score;
+    if (selectedRegion.total_score) {
+      score = selectedRegion.total_score;
     }
     if (selectedRegion.grade) {
       grade = selectedRegion.grade;
@@ -184,8 +196,12 @@ function loadPopup(path, selectedValue, selectedText) {
 
   let linkElement = `<a href="${link}" target="_blank" title="Open data for ${title} in a separate window">Read More</a>`;
 
-  regionScore.innerHTML = scoreElement;
-  regionScore.innerHTML += gradeElement;
+  if (mapSettings.includes('displayScore')) {
+    regionScore.innerHTML += scoreElement;
+  }
+  if (mapSettings.includes('displayGrade')) {
+    regionScore.innerHTML += gradeElement;
+  }
 
   regionTitle.innerHTML = titleElement;
   regionDescription.innerHTML += descriptionElement;
@@ -198,7 +214,7 @@ function loadPopup(path, selectedValue, selectedText) {
 
 }
 
-function createOptions() {
+async function createOptions() {
   const regionSelector = document.getElementById("regionSelect");
 
   regionSelector.innerHTML = `<option value="" disabled selected>Select</option>`;
@@ -213,7 +229,7 @@ function createOptions() {
   });
 }
 
-function regionSelect() {
+async function regionSelect() {
   const map = document.getElementById("map");
   const regionSelector = document.getElementById("regionSelect");
 
@@ -225,7 +241,7 @@ function regionSelect() {
 }
 
 // Calls map change function on button click
-function changeMap(random) {
+async function changeMap(random) {
   const map = document.getElementById("map");
   const changeSelector = document.getElementById("mapChange");
 
