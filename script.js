@@ -5,7 +5,7 @@ let mapSettings;
 let currentCountry;
 let currentRegionsData;
 
-async function loadMap() {
+function loadMap() {
   var map = document.getElementById("map").contentDocument.querySelector("svg");
   var toolTip = document.getElementById("toolTip");
 
@@ -17,10 +17,12 @@ async function loadMap() {
   map.addEventListener("mousemove", mouseEntered, false);
   map.addEventListener("mouseout", mouseGone, false);
 
-  currentRegionsData.forEach((region) => {
-    let path = map.getElementById(`${region.short_name}`)
-    path.style.fill = `${region.colour}`;
-  });
+
+    currentRegionsData.forEach((region) => {
+      let path = map.getElementById(`${region.short_name}`)
+      path.style.fill = `${region.colour}`;
+    });
+
 
   svgPanZoom('#map', {
     zoomEnabled: true,
@@ -117,7 +119,6 @@ window.onload = function () {
 
 async function setMapSettings(mapData) {
   mapSettings = mapData.split(",");
-  console.log(mapSettings);
 }
 
 async function setMapTitle() {
@@ -143,6 +144,9 @@ async function loadPopup(path, selectedValue, selectedText) {
   }
 
   const selectedRegion = filterData[0];
+
+  console.log(selectedRegion.total_score);
+  console.log(mapSettings);
   
     
   const regionDataRender = document.querySelector('#regionDataRender');
@@ -195,9 +199,12 @@ async function loadPopup(path, selectedValue, selectedText) {
   let descriptionElement = `<div class="description"><p>${description}</p></div>`;
 
   let linkElement = `<a href="${link}" target="_blank" title="Open data for ${title} in a separate window">Read More</a>`;
+  
+  regionScore.innerHTML = '';
 
   if (mapSettings.includes('displayScore')) {
     regionScore.innerHTML += scoreElement;
+    console.log(scoreElement);
   }
   if (mapSettings.includes('displayGrade')) {
     regionScore.innerHTML += gradeElement;
@@ -214,19 +221,20 @@ async function loadPopup(path, selectedValue, selectedText) {
 
 }
 
-async function createOptions() {
+function createOptions() {
   const regionSelector = document.getElementById("regionSelect");
 
   regionSelector.innerHTML = `<option value="" disabled selected>Select</option>`;
   currentRegionsData = regionData.filter((region) => {
-    return region.country_short_name === currentCountry;
-  });
+      return region.country_short_name === currentCountry;
+    });
   currentRegionsData.forEach((region) => {
     let option = document.createElement('option');
     option.text = region.name;
     option.value = region.short_name;
     regionSelector.appendChild(option);
   });
+
 }
 
 async function regionSelect() {
@@ -265,10 +273,12 @@ async function changeMap(random) {
   map.data = `maps/${selectedValue}.svg`;
 
   // Re-init map on map load
-  map.onload = function () {
-    createOptions();
-    loadMap();
-    
+  
+  map.onload = async () => {
+    setTimeout(function() {
+      createOptions();
+      loadMap();
+    },1000);
   };
 }
 
